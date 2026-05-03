@@ -1,6 +1,6 @@
 # FastAPI Test Repo
 
-A personal sandbox for experimenting with FastAPI. Currently covers file creation via shell scripts and real-time log generation with async streaming.
+A personal sandbox for experimenting with FastAPI. Currently covers file creation via shell scripts (with a persistent run counter), and real-time log generation with async streaming.
 
 ## Setup
 
@@ -9,9 +9,15 @@ A personal sandbox for experimenting with FastAPI. Currently covers file creatio
 pip install -r requirements.txt
 ```
 
+Dependencies are pinned (`fastapi[standard]==0.136.1`, `uvicorn==0.46.0`). SQLite is used for the run counter and requires no extra installation — it ships with Python.
+
 **Start the server**
 ```bash
+# Development (auto-reload, single worker)
 uvicorn main:api --host 0.0.0.0 --port 8000 --reload
+
+# Production (multiple workers — incompatible with --reload)
+uvicorn main:api --host 0.0.0.0 --port 8000 --workers 4
 ```
 
 ---
@@ -19,7 +25,7 @@ uvicorn main:api --host 0.0.0.0 --port 8000 --reload
 ## Endpoints
 
 ### `GET /touch/{version}`
-Creates a file via a shell script. Version selects which script variant to run.
+Creates a file via a shell script. Version selects which script variant to run. Each call increments a persistent SQLite counter stored in `simple_createst/counter.db`, and the current run count is passed to the shell script and returned in the response.
 
 | Parameter | Type | Values |
 |-----------|------|--------|
@@ -27,7 +33,10 @@ Creates a file via a shell script. Version selects which script variant to run.
 
 ```bash
 curl http://localhost:8000/touch/0
+# {"Run": 1, "Version": 0}
 ```
+
+The counter survives restarts. If the database is unreachable the endpoint will attempt a one-time auto-heal (re-init); on repeated failure it returns `500`.
 
 ---
 
