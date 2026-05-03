@@ -40,7 +40,7 @@ The counter survives restarts. If the database is unreachable the endpoint will 
 
 ---
 
-### `GET /generate-logs`
+### `GET /generate-logs/{log_file}&{iterations}&{bursts}`
 Generates synthetic log output and streams it back line by line in real time. The response is streamed as `text/plain` — the connection stays alive for the full duration rather than waiting for all lines to be written first.
 
 | Parameter | Type | Default | Description |
