@@ -9,7 +9,7 @@ A personal sandbox for experimenting with FastAPI. Currently covers file creatio
 pip install -r requirements.txt
 ```
 
-Dependencies are pinned (`fastapi[standard]==0.136.1`, `uvicorn==0.46.0`). SQLite is used for the run counter and requires no extra installation — it ships with Python.
+Dependencies are pinned (`fastapi[standard]==0.136.1`, `uvicorn==0.46.0`). SQLite is used for the run counter and requires no extra installation as it ships with Python.
 
 **Start the server**
 ```bash
@@ -23,6 +23,7 @@ uvicorn main:api --host 0.0.0.0 --port 8000 --workers 4
 ---
 
 ## Endpoints
+This is a general explenation, always check the [swagger documentation](http://localhost:8000/docs).
 
 ### `GET /touch/{version}`
 Creates a file via a shell script. Version selects which script variant to run. Each call increments a persistent SQLite counter stored in `simple_createst/counter.db`, and the current run count is passed to the shell script and returned in the response.
@@ -40,7 +41,7 @@ The counter survives restarts. If the database is unreachable the endpoint will 
 
 ---
 
-### `GET /generate-logs`
+### `GET /generate-logs/{log_file}&{iterations}&{bursts}`
 Generates synthetic log output and streams it back line by line in real time. The response is streamed as `text/plain` — the connection stays alive for the full duration rather than waiting for all lines to be written first.
 
 | Parameter | Type | Default | Description |
