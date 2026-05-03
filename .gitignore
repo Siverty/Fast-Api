@@ -1,0 +1,12 @@
+.venv/*
+CLAUDE.md
+simple_createst/*.txt
+*.pyc
+*.log
+.vscode
+.claude
+__pycache__
+package-lock.json
+package.json
+counter.db
+node_modules
