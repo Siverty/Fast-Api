@@ -3,8 +3,8 @@ import subprocess as sub
 import os
 
 # Because this is another file than main.py we need to route
-# the endpoints there
-router = APIRouter()
+# the endpoints to there with a routername
+toucher = APIRouter()
 
 # Init run variable
 run = 0
@@ -12,7 +12,7 @@ run = 0
 # Relative path finder
 file_dir = os.path.dirname(os.path.abspath(__file__))
 
-@router.get("/touch/{version}")
+@toucher.get("/touch/{version}")
 def touch(version: int):
     # Small optimisation to the file-call logic
     if version not in (0, 1):

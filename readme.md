@@ -1,6 +1,6 @@
 # Fast-Api test repo
 
-This repository is meant to experiment a bit with FastAPI for knowledge expadsture purpouses.
+This repository is meant to experiment a bit with FastAPI for knowledge expansion purpouses.
 
 
 # HowTo
